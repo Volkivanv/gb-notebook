@@ -7,10 +7,13 @@ import notebook.util.UserValidator;
 
 import java.util.Scanner;
 
+import static notebook.util.Scanner.prompt;
+
 public class UserView {
     private final UserController userController;
 
     public UserView(UserController userController) {
+
         this.userController = userController;
     }
 
@@ -23,7 +26,7 @@ public class UserView {
             if (com == Commands.EXIT) return;
             switch (com) {
                 case CREATE:
-                    User u = createUser();
+                    User u = userController.createUser();
                     userController.saveUser(u);
                     break;
                 case READ:
@@ -42,22 +45,36 @@ public class UserView {
                     break;
                 case UPDATE:
                     String userId = prompt("Enter user id: ");
-                    userController.updateUser(userId, createUser());
+                    try {
+                        User user = userController.readUser(Long.parseLong(userId));
+                        System.out.println("Имеющиеся данные пользователя: "+user);
+                        System.out.println();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    System.out.println("Ваша редакция: ");
+                    userController.updateUser(userId, userController.createUser());
+                    break;
+                case DELETE:
+
+                    String userDelId = prompt("Enter user id: ");
+                    try {
+                        User user = userController.readUser(Long.parseLong(userDelId));
+                        System.out.println("Подтвердите удаление: " + user);
+                        System.out.println();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    String localCommand = prompt("Введите Y для подтверждение или N для отмены: ");
+                    if(localCommand.equals("Y")) {
+                        userController.deleteUser(userDelId);
+                    }
+                    break;
             }
         }
     }
 
-    private String prompt(String message) {
-        Scanner in = new Scanner(System.in);
-        System.out.print(message);
-        return in.nextLine();
-    }
 
-    private User createUser() {
-        String firstName = prompt("Имя: ");
-        String lastName = prompt("Фамилия: ");
-        String phone = prompt("Номер телефона: ");
-        UserValidator validator = new UserValidator();
-        return validator.validate(new User(firstName, lastName, phone));
-    }
+
+
 }

@@ -16,8 +16,8 @@ public class UserValidator {
         return user;
     }
     private boolean isValid(User user){
-        return !user.getFirstName().isEmpty() &&
+        return !(user.getFirstName().isEmpty() &&
                 user.getLastName().isEmpty() &&
-                user.getPhone().isEmpty();
+                user.getPhone().isEmpty());
     }
 }
