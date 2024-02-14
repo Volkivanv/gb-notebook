@@ -21,9 +21,12 @@ public class UserView {
         Commands com;
 
         while (true) {
-            String command = prompt("Введите команду: ");
+            String command = prompt("Введите команду (список доступных команд - HELP): ").toUpperCase();
             com = Commands.valueOf(command);
-            if (com == Commands.EXIT) return;
+            if (com == Commands.EXIT) {
+                userController.saveUsers();
+                return;
+            }
             switch (com) {
                 case CREATE:
                     User u = userController.createUser();
@@ -69,6 +72,19 @@ public class UserView {
                     if(localCommand.equals("Y")) {
                         userController.deleteUser(userDelId);
                     }
+                    break;
+                case SAVE:
+                    userController.saveUsers();
+                    break;
+                case HELP:
+                    System.out.println("Сохранить изменения: SAVE");
+                    System.out.println("Прочитать пользователя по id: READ");
+                    System.out.println("Добавить пользователя: CREATE");
+                    System.out.println("Обновить данные пользователя: UPDATE");
+                    System.out.println("Вывести список пользователей: LIST");
+                    System.out.println("Удалить пользователя по id: DELETE");
+                    System.out.println("Вызов справки: HELP");
+                    System.out.println("Выход: EXIT");
                     break;
             }
         }

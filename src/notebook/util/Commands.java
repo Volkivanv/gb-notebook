@@ -1,11 +1,12 @@
 package notebook.util;
 
 public enum Commands {
-    NONE,
+    SAVE,
     READ,
     CREATE,
     UPDATE,
     LIST,
     DELETE,
-    EXIT
+    EXIT,
+    HELP
 }
