@@ -2,6 +2,7 @@ package notebook.controller;
 
 import notebook.model.User;
 import notebook.model.repository.GBRepository;
+import notebook.model.repository.impl.Notebook;
 import notebook.util.Scanner;
 import notebook.util.UserValidator;
 
@@ -13,8 +14,12 @@ import static notebook.util.Scanner.prompt;
 public class UserController {
     private final GBRepository repository;
 
+    private final Notebook notebook;
+
     public UserController(GBRepository repository) {
+
         this.repository = repository;
+        notebook = new Notebook(repository.findAll());
     }
 
     public void saveUser(User user) {

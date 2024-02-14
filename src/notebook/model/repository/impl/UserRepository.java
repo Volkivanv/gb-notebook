@@ -16,6 +16,7 @@ import static notebook.util.DBConnector.DB_PATH;
 
 public class UserRepository implements GBRepository, Operation {
     private final UserMapper mapper;
+
     private final String filePath;
 
     public UserRepository(String filePath) {
